@@ -87,7 +87,7 @@ int main(void) {
 				return 1;
 		}
 
-		if (lut_result[0] == '+') {
+		if(lut_result[0] == '+') {
 			// continue to next table, which is given in the second character of the result
 			lut_id = lut_result[1] - 48;
 		} else {
@@ -100,7 +100,7 @@ int main(void) {
 
 			// check if we are adding one or two to the length, which is the second character
 			// in the result. If we're at the end of the file, skip this
-			if (lut_result[1] == '1') {
+			if(lut_result[1] == '1') {
 				// only add one to the length, back up one character so we don't skip one
 				fseek(fp, -1, SEEK_CUR);
 			}
