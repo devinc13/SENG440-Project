@@ -35,11 +35,6 @@ char *HD_LUT4[4] = {
 	"l2"
 };
 
-char *getLutResult(int lut_number, int first_symbol, int second_symbol) {
-
-}
-
-
 int main(void) {
 	int first_symbol_to_decode;
 	int second_symbol_to_decode;
