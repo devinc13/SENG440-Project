@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAXLEN 255
+#define MAXLEN 1024
 
 void encode(char* encode_string);
 
