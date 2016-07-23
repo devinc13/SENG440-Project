@@ -21,7 +21,7 @@ char *HE_LUT[12] = {
 
 int main(void) {
 	//Open dataset file
-	FILE *fp = fopen("./dataset.dat","r");
+	FILE *fp = fopen("./dataset_full.dat","r");
 	
 	//Line which stores the encoded string
 	char encode_line[MAXLEN];
@@ -49,6 +49,6 @@ void encode(char encode_line[MAXLEN]){
 
 		// Print out encoded symbol
 		encoded_symbol = HE_LUT[symbol_to_encode - 97];
-		printf("%s\n", encoded_symbol);
+		printf("%s", encoded_symbol);
 	}
 }
