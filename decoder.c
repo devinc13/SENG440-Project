@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 #define MAXLEN 1024
 #define EOF_VALUE -49
@@ -53,6 +54,8 @@ int main(void) {
 }
 
 void decode(char decode_line[MAXLEN]){
+	clock_t begin = clock();
+
 	// Symbols
 	int first_symbol_to_decode;
 	int second_symbol_to_decode;
@@ -107,5 +110,9 @@ void decode(char decode_line[MAXLEN]){
 			printf("%c", lut_result[0]);
 		}
 	}
-	printf("\n");
+
+	clock_t end = clock();
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	printf("\n\nSystem execution time %f\n", time_spent);
+	printf("System execution cycles %f\n", (double)(end - begin));
 }
