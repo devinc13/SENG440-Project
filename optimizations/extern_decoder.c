@@ -1,14 +1,6 @@
 #include <stdio.h>
 #include <time.h>
 
-#define MAXLEN 29168
-#define EOF_VALUE -49
-#define NEW_LINE_VALUE -38
-
-#define ASCII_OFFSET 48
-
-void decode(char decode_line[MAXLEN]);
-
 // array of Look-up tables ordered from 0-4
 char LUT_DIRECTORY[5][4][2] = {
 	{
@@ -39,21 +31,7 @@ char LUT_DIRECTORY[5][4][2] = {
 	}
 };
 
-int main(void) {
-	//Open dataset file
-	FILE *fp = fopen("./encodeddataset_full.dat","r");
-	
-	//Line which stores the encoded string
-	char decode_line[MAXLEN];
-	
-	//Read in line of MAXLEN
-	fgets(decode_line, MAXLEN, (FILE*)fp);
-
-	// function call to encode
-	decode(decode_line);
-}
-
-void decode(char decode_line[MAXLEN]){
+void decode(char decode_line[29168]){
 	clock_t begin = clock();
 
 	// Symbols
@@ -67,25 +45,25 @@ void decode(char decode_line[MAXLEN]){
 	int lut_id = 0;
 
 	// iterate over the string to decode
-	for(i=0; i<MAXLEN; i += 2){
+	for(i=0; i<29168; i += 2){
 		// Decoded symbol
 		char *lut_result;
 		int lut_index;
 
 		// Get first and second character
-		first_symbol_to_decode = decode_line[i] - ASCII_OFFSET;
-		second_symbol_to_decode = decode_line[i+1] - ASCII_OFFSET;
+		first_symbol_to_decode = decode_line[i] - 48;
+		second_symbol_to_decode = decode_line[i+1] - 48;
 
 		// No more charactes to decode
-		if(first_symbol_to_decode == NEW_LINE_VALUE || first_symbol_to_decode == EOF_VALUE){
+		if(first_symbol_to_decode == -38 || first_symbol_to_decode == -49){
 			break;
 		}
 
 		// At the end of file, second symbol is functionally a 0
-		if(second_symbol_to_decode == NEW_LINE_VALUE || second_symbol_to_decode == EOF_VALUE){
+		if(second_symbol_to_decode == -38 || second_symbol_to_decode == -49){
 			second_symbol_to_decode = 0;
 			// Set i to end for loop
-			i = MAXLEN;
+			i = 29168;
 		}
 
 		// Set index for look-up table
@@ -115,4 +93,18 @@ void decode(char decode_line[MAXLEN]){
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("\n\nSystem execution time %f\n", time_spent);
 	printf("System execution cycles %f\n", (double)(end - begin));
+}
+
+int main(void) {
+	//Open dataset file
+	FILE *fp = fopen("./encodeddataset_full.dat","r");
+	
+	//Line which stores the encoded string
+	char decode_line[29168];
+	
+	//Read in line of 29168
+	fgets(decode_line, 29168, (FILE*)fp);
+
+	// function call to encode
+	decode(decode_line);
 }

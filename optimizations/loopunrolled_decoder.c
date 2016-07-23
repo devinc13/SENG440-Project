@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define MAXLEN 1024
+#define MAXLEN 29168
 #define EOF_VALUE -49
 #define NEW_LINE_VALUE -38
 

@@ -67,14 +67,15 @@ void decode(char decode_line[MAXLEN]){
 	int lut_id = 0;
 
 	// iterate over the string to decode
-	for(i=0; i<MAXLEN; i += 2){
+	for(i=MAXLEN; i!=0; i -= 2){
+		
 		// Decoded symbol
 		char *lut_result;
 		int lut_index;
 
 		// Get first and second character
-		first_symbol_to_decode = decode_line[i] - ASCII_OFFSET;
-		second_symbol_to_decode = decode_line[i+1] - ASCII_OFFSET;
+		first_symbol_to_decode = decode_line[MAXLEN-i] - ASCII_OFFSET;
+		second_symbol_to_decode = decode_line[MAXLEN-i+1] - ASCII_OFFSET;
 
 		// No more charactes to decode
 		if(first_symbol_to_decode == NEW_LINE_VALUE || first_symbol_to_decode == EOF_VALUE){
@@ -85,7 +86,7 @@ void decode(char decode_line[MAXLEN]){
 		if(second_symbol_to_decode == NEW_LINE_VALUE || second_symbol_to_decode == EOF_VALUE){
 			second_symbol_to_decode = 0;
 			// Set i to end for loop
-			i = MAXLEN;
+			i = 0;
 		}
 
 		// Set index for look-up table
@@ -110,6 +111,8 @@ void decode(char decode_line[MAXLEN]){
 			printf("%c", lut_result[0]);
 		}
 	}
+
+	printf("\n%d\n", i);
 
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
