@@ -49,12 +49,18 @@ int main(void) {
 	//Read in line of MAXLEN
 	fgets(decode_line, MAXLEN, (FILE*)fp);
 
+	clock_t begin = clock();
+
 	// function call to encode
 	decode(decode_line);
+
+	clock_t end = clock();
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	printf("\n\nSystem execution time %f\n", time_spent);
+	printf("System execution cycles %f\n", (double)(end - begin));
 }
 
 void decode(char decode_line[MAXLEN]){
-	clock_t begin = clock();
 
 	// Symbols
 	int first_symbol_to_decode;
@@ -114,8 +120,4 @@ void decode(char decode_line[MAXLEN]){
 
 	printf("\n%d\n", i);
 
-	clock_t end = clock();
-	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	printf("\n\nSystem execution time %f\n", time_spent);
-	printf("System execution cycles %f\n", (double)(end - begin));
 }
