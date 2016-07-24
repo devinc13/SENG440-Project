@@ -69,7 +69,7 @@ void decode(char decode_line[MAXLEN]){
 	// iterator
 	int i;
 	
-	// Look-up table id & eof flag
+	// Look-up table id
 	int lut_id = 0;
 
 	// iterate over the string to decode
