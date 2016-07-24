@@ -43,54 +43,123 @@ LUT_DIRECTORY:
 	.align	2
 .LC1:
 	.ascii	"r\000"
+	.global	__aeabi_i2d
+	.global	__aeabi_ddiv
+	.align	2
+.LC2:
+	.ascii	"\012\012System execution time %f\012\000"
+	.align	2
+.LC3:
+	.ascii	"System execution cycles %f\012\000"
 	.text
 	.align	2
 	.global	main
 	.type	main, %function
 main:
-	@ args = 0, pretend = 0, frame = 1032
+	@ args = 0, pretend = 0, frame = 29200
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
-	sub	sp, sp, #1024
-	sub	sp, sp, #8
-	push	{lr}
-	bl	__gnu_mcount_nc
+	stmfd	sp!, {r4, r5, fp, lr}
+	add	fp, sp, #12
+	sub	sp, sp, #29184
+	sub	sp, sp, #16
 	ldr	r3, .L3
 	ldr	r3, [r3, #0]
-	str	r3, [fp, #-8]
-	ldr	r0, .L3+4
-	ldr	r1, .L3+8
+	str	r3, [fp, #-16]
+	ldr	r4, .L3+4
+	ldr	r0, .L3+8
+	ldr	r1, .L3+12
 	bl	fopen
-	str	r0, [fp, #-1036]
-	sub	r3, fp, #1024
-	sub	r3, r3, #4
-	sub	r3, r3, #4
+	sub	r1, fp, #12
+	str	r0, [r1, r4]
+	sub	r3, fp, #28928
+	sub	r3, r3, #12
+	sub	r3, r3, #244
+	ldr	r2, .L3+4
 	mov	r0, r3
-	mov	r1, #1024
-	ldr	r2, [fp, #-1036]
+	ldr	r1, .L3+16
+	sub	r3, fp, #12
+	ldr	r2, [r3, r2]
 	bl	fgets
-	sub	r3, fp, #1024
-	sub	r3, r3, #4
-	sub	r3, r3, #4
+	ldr	r4, .L3+20
+	bl	clock
+	sub	r1, fp, #12
+	str	r0, [r1, r4]
+	sub	r3, fp, #28928
+	sub	r3, r3, #12
+	sub	r3, r3, #244
 	mov	r0, r3
 	bl	decode
+	ldr	r4, .L3+24
+	bl	clock
+	sub	r2, fp, #12
+	str	r0, [r2, r4]
+	ldr	r2, .L3+24
+	ldr	r3, .L3+20
+	sub	r1, fp, #12
+	ldr	r2, [r1, r2]
+	sub	r1, fp, #12
+	ldr	r3, [r1, r3]
+	rsb	r3, r3, r2
+	mov	r0, r3
+	bl	__aeabi_i2d
+	mov	r3, r0
+	mov	r4, r1
+	ldr	r2, .L3+28
+	sub	r1, fp, #12
+	add	r5, r1, r2
+	mov	r0, r3
+	mov	r1, r4
+	mov	r2, #0
+	ldr	r3, .L3+32
+	bl	__aeabi_ddiv
+	mov	r3, r0
+	mov	r4, r1
+	stmia	r5, {r3-r4}
+	ldr	r3, .L3+28
+	sub	r2, fp, #12
+	add	r3, r2, r3
+	ldr	r0, .L3+36
+	ldmia	r3, {r2-r3}
+	bl	printf
+	ldr	r2, .L3+24
+	ldr	r3, .L3+20
+	sub	r1, fp, #12
+	ldr	r2, [r1, r2]
+	sub	r1, fp, #12
+	ldr	r3, [r1, r3]
+	rsb	r3, r3, r2
+	mov	r0, r3
+	bl	__aeabi_i2d
+	mov	r3, r0
+	mov	r4, r1
+	ldr	r0, .L3+40
+	mov	r2, r3
+	mov	r3, r4
+	bl	printf
 	mov	r0, r3
 	ldr	r3, .L3
-	ldr	r2, [fp, #-8]
+	ldr	r2, [fp, #-16]
 	ldr	r3, [r3, #0]
 	cmp	r2, r3
 	beq	.L2
 	bl	__stack_chk_fail
 .L2:
-	sub	sp, fp, #4
-	ldmfd	sp!, {fp, pc}
+	sub	sp, fp, #12
+	ldmfd	sp!, {r4, r5, fp, pc}
 .L4:
 	.align	2
 .L3:
 	.word	__stack_chk_guard
+	.word	-29196
 	.word	.LC0
 	.word	.LC1
+	.word	29168
+	.word	-29192
+	.word	-29188
+	.word	-29184
+	.word	1093567616
+	.word	.LC2
+	.word	.LC3
 	.size	main, .-main
 	.align	2
 	.global	decode
@@ -101,8 +170,6 @@ decode:
 	stmfd	sp!, {fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #32
-	push	{lr}
-	bl	__gnu_mcount_nc
 	str	r0, [fp, #-32]
 	mov	r3, #0
 	str	r3, [fp, #-20]
@@ -125,10 +192,10 @@ decode:
 	str	r3, [fp, #-28]
 	ldr	r3, [fp, #-16]
 	cmn	r3, #38
-	beq	.L7
+	beq	.L5
 	ldr	r3, [fp, #-16]
 	cmn	r3, #49
-	beq	.L7
+	beq	.L5
 	ldr	r3, [fp, #-28]
 	cmn	r3, #38
 	beq	.L8
@@ -138,7 +205,7 @@ decode:
 .L8:
 	mov	r3, #0
 	str	r3, [fp, #-28]
-	mov	r3, #1024
+	ldr	r3, .L14
 	str	r3, [fp, #-24]
 .L9:
 	ldr	r3, [fp, #-16]
@@ -151,7 +218,7 @@ decode:
 	ldr	r3, [fp, #-12]
 	add	r3, r2, r3
 	mov	r2, r3, asl #1
-	ldr	r3, .L14
+	ldr	r3, .L14+4
 	add	r3, r2, r3
 	str	r3, [fp, #-8]
 	ldr	r3, [fp, #-8]
@@ -186,19 +253,18 @@ decode:
 	str	r3, [fp, #-24]
 .L6:
 	ldr	r2, [fp, #-24]
-	ldr	r3, .L14+4
+	ldr	r3, .L14+8
 	cmp	r2, r3
 	ble	.L13
-.L7:
-	mov	r0, #10
-	bl	putchar
+.L5:
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
 .L15:
 	.align	2
 .L14:
+	.word	29168
 	.word	LUT_DIRECTORY
-	.word	1023
+	.word	29167
 	.size	decode, .-decode
 	.ident	"GCC: (Ubuntu/Linaro 4.7.3-12ubuntu1) 4.7.3"
 	.section	.note.GNU-stack,"",%progbits
