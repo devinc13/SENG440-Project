@@ -10,8 +10,23 @@ qemu-arm decoder.exe
 Optionally you can pipe the output into a file:
 qemu-arm decoder.exe > output.dat
 
-The output from running the decoder.c file should match the dataset_full.dat (other than our timing output that is added to the end).
+The output from running the decoder.exe file should match the dataset_full.dat (other than our timing output that is added to the end).
+
+
+To get the average time and cycles elapsed over 1000 runs of decoder.exe, after compiling, simply run (and wait for the executions to finish):
+python timescript.py
 
 
 
-To get the time 
+The 5 files in the c_optimizations are the changes we made to implement or attempt to implement various optimizations to the c code. These can be run by running a similar command to the decoder C file (other than dec_decoder, which wasn't possible to finish implementing):
+arm-linux-gnueabi-gcc -static -march=armv5 ./c_optimizations/loopunrolled_decoder.c -o decoder.exe
+qemu-arm decoder.exe
+
+
+The assembly files in the assembly_optimization folder can be compiled and run with the following commands:
+arm-linux-gnueabi-gcc -static -march=armv5 -g ./assembly_optimization/O1_decoder_manually_optimized.s
+qemu-arm -L /usr/arm-linux-gnueabi/ ./a.out
+
+
+Finally, to get the average time and cycles elapsed over 1000 runs of the assembly files, after compiling, simply run (and wait for the executions to finish):
+python timescript_assembly.py
